@@ -1,0 +1,17 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: False
+  # sudo: True
+
+  vars:
+    app_name: MacTeX
+    app_name_pretty: MacTeX
+    app_url: "http://mirror.ctan.org/systems/mac/mactex/MacTeX.pkg"
+    install_method: pkg 
+    install_target: /Volumes/Macintosh\ HD
+    downloads: ~/.ansible-downloads/
+    creates: /usr/texbin/latex
+
+  tasks:
+    - include: ../install/{{install_method}}.yml

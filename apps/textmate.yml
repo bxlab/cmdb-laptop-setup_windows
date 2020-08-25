@@ -1,0 +1,23 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: False
+  vars:
+    app_name: TextMate
+    app_name_pretty: TextMate
+    app_url: "https://api.textmate.org/downloads/release"
+    installer_type: app
+    install_method: tar
+    downloads: ~/.ansible-downloads/
+    creates: /usr/bin/tm
+
+  tasks:
+    - include: ../install/{{install_method}}.yml
+
+    - name: Create symlink mate for TextMate
+      file: src=/Applications/TextMate.app/Contents/Resources/mate dest=/usr/bin/mate state=link
+      sudo: true
+
+    - name: Create symlink tm for TextMate
+      file: src=/Applications/TextMate.app/Contents/Resources/mate dest=/usr/bin/tm state=link
+      sudo: true

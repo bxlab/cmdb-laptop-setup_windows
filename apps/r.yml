@@ -1,0 +1,17 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: False
+  # sudo: True
+
+  vars:
+    app_name: R-4.0.2
+    app_name_pretty: R 
+    app_url: "http://cran.stat.ucla.edu/bin/macosx/R-4.0.2.pkg"
+    install_method: pkg 
+    install_target: /Volumes/Macintosh\ HD
+    downloads: ~/.ansible-downloads/
+    creates: /Applications/R.app/
+
+  tasks:
+    - include: ../install/{{install_method}}.yml

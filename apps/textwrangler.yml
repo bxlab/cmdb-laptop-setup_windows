@@ -1,0 +1,17 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: False
+  vars:
+    app_name: TextWrangler
+    app_name_pretty: "TextWrangler"
+    app_url: "https://s3.amazonaws.com/BBSW-download/TextWrangler_4.5.12.dmg"
+    installer_type: app
+    install_method: dmg
+    mount_path: /Volumes/{{app_name}}\ 4.5.12/
+    downloads: ~/.ansible-downloads/
+    creates: /Applications/{{app_name}}.app/
+
+  tasks:
+    - include: ../install/{{install_method}}.yml
+

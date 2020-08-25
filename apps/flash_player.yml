@@ -1,0 +1,34 @@
+---
+# Note: Installation process might require human interaction.
+# TODO: creates variable is totally bogus and needs fixing.
+- hosts: all
+  connection: local
+  gather_facts: False
+  vars:
+    app_name: Adobe\ Flash\ Player\ Installer
+    app_name_pretty: Adbo Flash Player Installer
+    app_url: "http://aihdownload.adobe.com/bin/live/AdobeFlashPlayerInstaller_14_aaa_aih.dmg"
+    install_target: /Volumes/Macintosh\ HD
+    mount_path: /Volumes/{{ app_name }}/
+    downloads: ~/.ansible-downloads/
+    creates: ~/Library/Preferences/Macromedia
+
+  tasks:
+    - name: Download {{ app_name_pretty }}
+      get_url: url={{ app_url }} dest={{ downloads }}/{{ app_name }}.dmg
+
+    - name: Mount {{ app_name_pretty }} image
+      command: hdiutil attach {{ app_name }}.dmg chdir={{ downloads }} creates={{ creates }}
+
+    - name: Run {{ app_name_pretty }}
+      command: /Volumes/{{ app_name }}/Install\ Adobe\ Flash\ Player.app/Contents/MacOS/Install\ Adobe\ Flash\ Player creates={{ creates }}
+      sudo: yes
+
+    - name: Check if image is mounted
+      shell: "[ -d {{ mount_path }} ] && echo '1' || echo '0'"
+      changed_when: false
+      register: mount_exists
+
+    - name: Unmount {{ app_name_pretty }} image
+      command: hdiutil detach {{ mount_path }}
+      when: "mount_exists.stdout == '1'"

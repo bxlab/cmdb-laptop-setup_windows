@@ -1,0 +1,16 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: False
+  vars:
+    app_name: Tresorit
+    app_name_pretty: Tresorit
+    app_url: "https://installerstorage.blob.core.windows.net/install/Tresorit.dmg"
+    installer_type: app
+    install_method: dmg
+    mount_path: /Volumes/{{app_name}}/
+    downloads: ~/.ansible-downloads/
+    creates: /Applications/{{app_name}}.app
+
+  tasks:
+   - include: ../install/{{install_method}}.yml

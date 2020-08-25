@@ -1,0 +1,19 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: False
+  sudo: True
+  vars:
+    app_name: JDK\ 7\ Update\ 65
+    app_name_pretty: JDK 7 Update 65
+    app_url: "http://download.oracle.com/otn-pub/java/jdk/7u65-b17/jdk-7u65-macosx-x64.dmg"
+    uri_headers: 'HEADER_Cookie="oraclelicense=accept-securebackup-cookie"'
+    installer_type: pkg
+    install_method: dmg
+    install_target: /Volumes/Macintosh\ HD
+    mount_path: /Volumes/{{app_name}}/
+    downloads: ~/.ansible-downloads/
+    creates: /Library/Java/JavaVirtualMachines/jdk1.7.0_65.jdk
+
+  tasks:
+   - include: ../install/{{install_method}}.yml
