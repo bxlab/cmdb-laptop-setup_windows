@@ -1,0 +1,28 @@
+---
+- name: CMDB Windows 10 Setup Playbook
+  hosts: localhost
+  connection: local
+
+  vars:
+    - downloads: ~/.ansible-downloads/
+
+  tasks:
+    - name: Create Ansible downloads directory
+      file: path={{downloads}} state=directory
+    - import_tasks: preferences/softwareupdate.yml
+    # - import_tasks: preferences/dotfiles.yml
+    # - import_tasks: preferences/preferences.yml
+
+# - import_playbook: apps/homebrew.yml
+
+- import_playbook: homebrew_packages.yml
+
+- name: Run setup scripts
+  hosts: all
+  connection: local
+  tasks:
+    - name: Run conda setup
+      command: "bash install_conda_packages.sh"
+
+    - name: Fetch data
+      command: "bash get_data.sh"

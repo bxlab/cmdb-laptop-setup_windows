@@ -1,0 +1,51 @@
+---
+- hosts: all
+  connection: local
+  tasks:
+
+    - name: Update homebrew
+      homebrew:
+        update_homebrew: yes
+
+    - name: Tap additional homebrew repositories we use
+      homebrew_tap:
+        state: present
+        name:
+          - brewsci/bio
+          - brewsci/science
+          - homebrew/cask-fonts
+
+    - name: Install cask dependencies (Java, Xquartz)
+      homebrew_cask:
+        name:
+          - xquartz
+          - java
+
+    - name: Install packages with homebrew
+      homebrew:
+        state: latest
+        name:
+          - gcc
+          - git
+          - wget
+          - mosh
+          - tmux
+          - ack
+          - mercurial
+          - vim
+          - neovim
+
+    - name: Refresh sudo cache
+      command: "echo none"
+      become: yes
+
+    - name: Install packages with homebrew cask
+      homebrew_cask:
+        state: present
+        name:
+          - firefox
+          - sublime-text
+          - atom
+          - r
+          - rstudio
+          - slack

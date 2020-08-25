@@ -1,0 +1,26 @@
+---
+- hosts: all
+  connection: local
+  sudo: True
+  tasks:
+    - name: Ensure latest versions of scientific python modules
+      pip: state=latest name={{item}}
+      environment:
+        PYTHONPATH: /usr/local/lib/python2.7/site-packages:/Library/Python/2.7/site-packages
+      with_items:
+        - cython
+        - ipython
+        - sympy
+        - pandas
+        - pymc
+        - simpy
+        - scikit-image
+        - scikit-learn
+        - patsy
+        - statsmodels
+        - MACS2
+        - bokeh
+        - ggplot
+
+    # - pip: state=present name="PyX==0.12"
+
