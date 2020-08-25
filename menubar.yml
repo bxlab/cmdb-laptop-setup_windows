@@ -1,0 +1,11 @@
+---
+- name: Set menubar battery show percent option
+  shell: defaults write com.apple.menuextra.battery ShowPercent -string "{{menubar.battery.percent}}"
+  when: menubar is defined and menubar.battery is defined and menubar.battery.percent is defined
+
+- name: Set menubar battery show clock option
+  shell: defaults write com.apple.menuextra.battery ShowTime -string "{{menubar.battery.time}}"
+  when: menubar is defined and menubar.battery is defined and menubar.battery.time is defined
+
+- name: Restart menubar
+  shell: killall SystemUIServer -HUP
