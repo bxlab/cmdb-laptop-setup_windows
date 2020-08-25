@@ -1,4 +1,0 @@
----
-- name: Trigger software update
-  shell: softwareupdate --install --all
-  become: yes
