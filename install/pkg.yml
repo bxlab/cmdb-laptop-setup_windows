@@ -1,0 +1,9 @@
+---
+# TODO: Idempotence.
+
+- name: Download {{ app_name_pretty }}
+  uri: url={{ app_url }} dest={{ downloads }}/{{ app_name }}.pkg creates={{ downloads }}/{{ app_name }}.pkg follow_redirects=all {{ uri_headers | default('HEADER_User-Agent="Ansible"') }}
+  sudo: no
+
+- name: Install {{ app_name }} pkg
+  command: sudo installer -package {{ downloads }}{{ app_name }}.pkg -target {{ install_target }} creates={{ creates }}
