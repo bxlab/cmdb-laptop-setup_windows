@@ -26,4 +26,4 @@ cd cmdb-laptop-setup_windows
 ansible-playbook main.yml --connection=local -K
 
 # Run cause of some weird git thing
-git config --replace commit.gpgsign false
+git config --global --replace commit.gpgsign false
